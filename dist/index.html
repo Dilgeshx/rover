@@ -6,10 +6,41 @@
     <title>Rover ROSBridge UI</title>
     <!-- roslib CDN (used by the app to connect to rosbridge). You can also install roslib via npm if you prefer. -->
     <script src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
-    <script type="module" crossorigin src="/assets/index-DjaUgFPW.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Y_E7jOXe.css">
+    <script type="module" crossorigin src="/assets/index-B3re32sW.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DlYaYN7t.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
+    <!-- Runtime error overlay: displays JS errors on page to help debug white-screen in production -->
+    <script>
+      (function(){
+        function showError(message){
+          try{
+            var css = "position:fixed;left:12px;right:12px;top:12px;padding:14px 18px;background:rgba(0,0,0,0.92);color:#ffdddd;border-left:4px solid #ff6b6b;z-index:99999;font-family:monospace;font-size:14px;border-radius:6px;white-space:pre-wrap;line-height:1.35;max-height:70vh;overflow:auto;";
+            var el = document.createElement('div'); el.setAttribute('id','__runtime_error_overlay'); el.setAttribute('style',css); el.textContent = message;
+            document.body.appendChild(el);
+          }catch(e){
+            console.error('Failed to render error overlay', e);
+          }
+        }
+        window.addEventListener('error', function(e){
+          console.error('Uncaught error:', e.error || e.message, e);
+          showError((e && (e.error && e.error.stack || e.message)) || String(e));
+        });
+        window.addEventListener('unhandledrejection', function(ev){
+          console.error('UnhandledRejection:', ev.reason);
+          showError((ev && (ev.reason && ev.reason.stack || ev.reason)) || String(ev));
+        });
+        // small guard to show if React mount never runs (timeout)
+        setTimeout(function(){
+          if(!document.getElementById('root') || (document.getElementById('root') && document.getElementById('root').children.length===0)){
+            // do not overwrite an existing overlay
+            if(!document.getElementById('__runtime_error_overlay')){
+              showError('No app content rendered yet. If this is the deployed site, open DevTools console for runtime errors.');
+            }
+          }
+        },2500);
+      })();
+    </script>
   </body>
 </html>
